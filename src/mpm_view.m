@@ -7,8 +7,10 @@ if mdl.dim==1
     
     if mdl.report.curr==1
         figure('Color', [1 1 1]); hold on; axis equal
-        x = mdl.node.coord(:,1); x = [x x]; y = x;
-        h = mdl.grid.elem_size; y(:,1) = -h/2; y(:,2) = h/2;
+        x = mdl.node.coord(:,1); h = mdl.grid.elem_size;
+        plot([min(x) max(x)], [-h/2 -h/2], 'k-');
+        plot([min(x) max(x)], [+h/2 +h/2], 'k-');
+        x = [x x]; y = x; y(:,1) = -h/2; y(:,2) = h/2;
         patch(x', y', 'white');
         MPM_PARTICLE_PLOT = plot(mdl.part.position(:,1), ...
             mdl.part.position(:,1)*0, 'ro');
