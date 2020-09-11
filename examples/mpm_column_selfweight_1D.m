@@ -1,15 +1,15 @@
 % mpm column under self-weight example (tielen 4.2)
 %==========================================================================
-function mpm_column_selfweight
+function mpm_column_selfweight_1D
 addpath(strrep(pwd,'examples','src'));
 
 % input data
-L = [1 25]; h = 1; gap = [-h -h; h h]; ppe = 2; supp = {[],[NaN 0]};
+L = 25; h = 1; gap = [-h; h]; ppe = 2; supp = {0};
 E = 5e+4; nu = 0; rho = 1; g = 9.81; tsim = 0.9; dtf = 0.3; nrep = 200;
 
 % define model
 mdl = mpm_boxdomain(L, h, gap, ppe, supp, E, nu, rho, g, tsim, dtf, nrep);
-mdl.report.show_animation = false;
+mdl.report.show_animation = true;
 
 % run model and get reported time instants
 out = mpm(mdl);
@@ -19,12 +19,12 @@ time = out.time;
 mpm_vel_cm = zeros(size(time));
 for i = 1:length(out.time)
     mdl = out.model(i);
-    mpm_vel_cm(i) = mdl.part.mass'*mdl.part.velocity(:,2);
+    mpm_vel_cm(i) = mdl.part.mass'*mdl.part.velocity(:,1);
 end
 mpm_vel_cm = mpm_vel_cm ./ sum(mdl.part.mass);
 
 % calc ref cm velocity
-ref_vel_cm = ref_velocity_cm (L(2), E, rho, g, 0, 5, time);
+ref_vel_cm = ref_velocity_cm (L(1), E, rho, g, 0, 5, time);
 
 % compare results
 figure('Color','w'); hold on; title('MPM self-weight column');

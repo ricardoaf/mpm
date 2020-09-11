@@ -1,15 +1,15 @@
 % mpm column under self-weight example (tielen 4.2)
 %==========================================================================
-function mpm_column_selfweight
+function mpm_column_selfweight_3D
 addpath(strrep(pwd,'examples','src'));
 
 % input data
-L = [1 25]; h = 1; gap = [-h -h; h h]; ppe = 2; supp = {[],[NaN 0]};
+L = [1 25 1]; h = 1; gap = [-h -h -h; h h h]; ppe = 2; supp = {[],[NaN 0 NaN],[]};
 E = 5e+4; nu = 0; rho = 1; g = 9.81; tsim = 0.9; dtf = 0.3; nrep = 200;
 
 % define model
 mdl = mpm_boxdomain(L, h, gap, ppe, supp, E, nu, rho, g, tsim, dtf, nrep);
-mdl.report.show_animation = false;
+mdl.report.show_animation = true;
 
 % run model and get reported time instants
 out = mpm(mdl);
